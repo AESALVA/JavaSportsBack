@@ -1,19 +1,14 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
-
-const user = 'java';
-const pass = 'kTVp1Z8ualejZbLI';
-const db = 'javaSports';
-const uri = `mongodb+srv://${user}:${pass}@cluster1.9n3m6mo.mongodb.net/${db}?retryWrites=true&w=majority`;
+require('dotenv').config();
 
 
-mongoose.connect(uri, {
+mongoose.connect(process.env.DB_URI, {
   useNewUrlParser : true,
   useUnifiedTopology : true,
 }).then(()=>{console.log('database connection OK')}).catch((error)=>{console.error(error)});
 
-const Article = require('./models/article');
 
 let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
@@ -25,25 +20,10 @@ require('dotenv').config();
 const PORT = process.env.PORT || 8000;
 
 
-
-app.get('/articles', async (req, res)=>{
-    const allArticles = await Article.find();
-    console.log('get');
-    console.log(allArticles)
-    res.status(200).json(allArticles);
-})
-
-app.post('/comments', (req, res)=>{
-  const { body } = req;
-  console.log('post comments');
-  res.status(200).json(body)
-})  
-
-app.get('/article/:id',(req,res)=>{
-    const { id } = req.params;
-const article = MOCK.find(a=>a.id === id);
-res.status(200).json(article);
-})
+const articlesRoutes = require('./Routes/articles');
+app.use('/articles', articlesRoutes)
+const usersRoutes = require('./Routes/users');
+app.use('/users', usersRoutes)
 
 app.route('/test').get((req,res)=>{
     const allArticles = MOCK;
