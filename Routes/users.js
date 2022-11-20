@@ -12,43 +12,62 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .get("/login", async (req, res) => {
-    const { id } = req.params;
+  .get("login/:username", async (req, res) => {
+    const { username } = req.params;
 
     try {
-      const user = await User.findOne({ _id: id });
-      res.status(200).json(article);
+      const user = await User.findOne({ name: username });
+      res.status(200).json(user);
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
-  }).post('/new', async(req,res)=>{
-    console.log('POST /arcticles/new');
+  }).post('/register', async(req,res)=>{
+    console.log('POST /users/register');
     const {body}= req;
+
+    const newUserName = await User.findOne({
+        name: body.name,
+      });
+  
+      const newUserMail = await User.findOne({
+        mail: body.mail,
+      });
+
+      if (newUserName || newUserMail) {
+        return res.status(400).json({
+          error: true,
+          message: 'User or email already exists',
+        });
+      }
+
+
+
+
     try {
-        const newArticle = new Article(body);
-        await newArticle.save();
-        res.status(200).json(newArticle);
+        const newUser = new User(body);
+        await newUser.save();
+        res.status(200).json(newUser);
     } catch (error) {
         res.status(400).json({ error: true, message: error });
     }
 
-  } ).put('/update/:id', async(req,res)=>{
-    console.log('PUT /arcticles/update');
+  } ).put('/update/:username', async(req,res)=>{
+    console.log('PUT /users/update');
     const { body }= req;
-    const { id }=req.params;
+    const { username }=req.params;
     try {
-        const modArticle = await Article.findOneAndUpdate(id,body,{useFindAndModify: false});
-        res.status(200).json(modArticle);
+        const modUser = await User.findOneAndUpdate(username,body,{useFindAndModify: false});
+        res.status(200).json(modUser);
     } catch (error) {
         res.status(400).json({ error: true, message: error });
     }
 
-  } ).delete('/delete/:id', async (req,res)=>{
-    const {id}= req.params;
-    console.log('DELETE /articles/delete');
+  } ).delete('/delete/:username', async (req,res)=>{
+    const {username}= req.params;
+    console.log('DELETE /users/delete');
     try {
-        const delArticle = await Article.findOneAndDelete({_id:id});
-        res.status(200).json(delArticle)
+        const delUser = await User.findOneAndDelete({name:username});
+        res.status(200).json(delUser)
     } catch (error) {
         res.status(400).json({ error: true, message: error });
 
