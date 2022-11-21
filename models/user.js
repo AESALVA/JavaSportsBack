@@ -26,6 +26,10 @@ const userSchema = new Schema({
       type: Date,
       default: Date.now,
     },
+    role:{
+      type: String,
+      required:true,
+    }
   });
   
   const User = mongoose.model('users', userSchema);
