@@ -9,6 +9,7 @@ const articleSchema = new Schema ({
         description: String,
         imgTwo: String,
         synopsis: String,
+        important: String,
          
 });
 
