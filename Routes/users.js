@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const User = require('../models/user');
+const bcrypt = require('bcrypt');
+
 
 router
   .get("/all", async (req, res) => {
@@ -65,6 +67,16 @@ router
   } ).delete('/delete/:username', async (req,res)=>{
     const {username}= req.params;
     console.log('DELETE /users/delete');
+
+    const SUPER_USER = 'Javasports';
+    if (username === SUPER_USER) {
+      return res.status(400).json({
+        error: true,
+        message: 'This user cannot be erased!',
+      });
+    }
+
+
     try {
         const delUser = await User.findOneAndDelete({name:username});
         res.status(200).json(delUser)
