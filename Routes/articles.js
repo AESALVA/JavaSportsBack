@@ -61,10 +61,6 @@ router
 
 
 
-router.post("/comments", (req, res) => {
-  const { body } = req;
-  console.log("post comments");
-  res.status(200).json(body);
-});
+
 
 module.exports = router;

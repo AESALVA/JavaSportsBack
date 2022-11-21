@@ -23,7 +23,9 @@ const PORT = process.env.PORT || 8000;
 const articlesRoutes = require('./Routes/articles');
 app.use('/articles', articlesRoutes)
 const usersRoutes = require('./Routes/users');
-app.use('/users', usersRoutes)  
+app.use('/users', usersRoutes) 
+const commentsRoutes = require('./Routes/comments');
+app.use('/comments', commentsRoutes)
 
 app.route('/test').get((req,res)=>{
     const allArticles = MOCK;
