@@ -64,11 +64,12 @@ router
     }
 
   } ).delete('/delete/:username', async (req,res)=>{
-    const {username}= req.params;
+    const { username }= req.params;
+    const { body }=req;
     console.log('DELETE /users/delete');
-
-    const SUPER_USER = 'Javasports';
-    if (username === SUPER_USER) {
+    
+    const SUPER_USER = 'admin';
+    if (body.role === SUPER_USER) {
       return res.status(400).json({
         error: true,
         message: 'This user cannot be erased!',
