@@ -23,6 +23,20 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
+  .put("/update/:id", async (req, res) => {
+    console.log("PUT /comments/update");
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+      const modComment = await Comment.findByIdAndUpdate(id, body, {
+        useFindAndModify: false,
+      });
+      res.status(200).json(modComment);
+    } catch (error) {
+      res.status(400).json({ error: true, message: error });
+    }
+  })
   .delete("/delete/:id", async (req, res) => {
     const { id } = req.params;
     console.log("DELETE /comments/delete");
