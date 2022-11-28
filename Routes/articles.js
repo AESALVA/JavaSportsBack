@@ -37,7 +37,7 @@ router
     const { body }= req;
     const { id }=req.params;
     try {
-        const modArticle = await Article.findOneAndUpdate(id,body,{useFindAndModify: false});
+        const modArticle = await Article.findByIdAndUpdate(id,body,{useFindAndModify: false});
         res.status(200).json(modArticle);
     } catch (error) {
         res.status(400).json({ error: true, message: error });

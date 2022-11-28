@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const articleSchema = new Schema ({
     categories: String,
+    categoryId:String,
         title: String,
         img: String,
         imgTitle: String,
