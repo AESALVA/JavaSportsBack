@@ -1,6 +1,5 @@
 const router = require("express").Router();
-const User = require('../models/user');
-
+const User = require("../models/user");
 
 router
   .get("/all", async (req, res) => {
@@ -13,81 +12,91 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .get("login/:username", async (req, res) => {
-    const { username } = req.params;
+  .post("login", async (req, res) => {
+    const { body } = req;
+    const user = await User.findOne({ name: body.name });
+    const passOK = await bcrypt.compare(body.password, user.password);
+
+    if (user && passOK) {
+      return res.status(200).json({
+        error: null,
+        message: "User and password OK",
+        role: user.role,
+      });
+    } else {
+      return res.status(400).json({
+        error: true,
+        message: "Wrong Credentials",
+      });
+    }
+  })
+  .post("/register", async (req, res) => {
+    console.log("POST /users/register");
+    const { body } = req;
+
+    const newUserName = await User.findOne({
+      name: body.name,
+    });
+
+    const newUserMail = await User.findOne({
+      mail: body.mail,
+    });
+
+    if (newUserName || newUserMail) {
+      return res.status(400).json({
+        error: true,
+        message: "User or email already exists",
+      });
+    }
+    // bcrypt
+    const salt = await bcrypt.genSalt(6);
+    const encrytedPassword = await bcrypt.hash(body.password, salt);
 
     try {
-      const user = await User.findOne({ name: username });
-      res.status(200).json(user);
+      const newUser = new User({
+        name: body.name,
+        mail: body.mail,
+        password: encrytedPassword,
+      });
+      await newUser.save();
+      newUser.password = body.password;
+      res.status(200).json(newUser);
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
-  }).post('/register', async(req,res)=>{
-    console.log('POST /users/register');
-    const {body}= req;
-
-    const newUserName = await User.findOne({
-        name: body.name,
-      });
-  
-      const newUserMail = await User.findOne({
-        mail: body.mail,
-      });
-
-      if (newUserName || newUserMail) {
-        return res.status(400).json({
-          error: true,
-          message: 'User or email already exists',
-        });
-      }
-
-
-
-
+  })
+  .put("/update/:username", async (req, res) => {
+    console.log("PUT /users/update");
+    const { body } = req;
+    const { username } = req.params;
     try {
-        const newUser = new User(body);
-        await newUser.save();
-        res.status(200).json(newUser);
+      const modUser = await User.findOneAndUpdate(username, body, {
+        useFindAndModify: false,
+      });
+      res.status(200).json(modUser);
     } catch (error) {
-        res.status(400).json({ error: true, message: error });
+      res.status(400).json({ error: true, message: error });
     }
-
-  } ).put('/update/:username', async(req,res)=>{
-    console.log('PUT /users/update');
-    const { body }= req;
-    const { username }=req.params;
-    try {
-        const modUser = await User.findOneAndUpdate(username,body,{useFindAndModify: false});
-        res.status(200).json(modUser);
-    } catch (error) {
-        res.status(400).json({ error: true, message: error });
-    }
-
-  } ).delete('/delete/:name', async (req,res)=>{
-    const { name }= req.params;
-    const { body }=req;
-    console.log('DELETE /users/delete');
-    console.log(body.role)
-    const SUPER_USER = 'admin';
+  })
+  .delete("/delete/:id", async (req, res) => {
+    const { id } = req.params;
+    const { body } = req;
+    console.log("DELETE /users/delete");
+    console.log(body.role);
+    const SUPER_USER = "admin";
     if (body.role === SUPER_USER) {
       return res.status(400).json({
         error: true,
-        message: 'This user cannot be erased!',
+        message: "This user cannot be erased!",
       });
     }
 
-
     try {
-        const delUser = await User.findOneAndDelete({name:name});
-        res.status(200).json(delUser)
+      const delUser = await User.findOneAndDelete({ _id: id });
+      res.status(200).json(delUser);
     } catch (error) {
-        res.status(400).json({ error: true, message: error });
-
+      res.status(400).json({ error: true, message: error });
     }
-  })
-
-
-
-
+  });
 
 module.exports = router;
