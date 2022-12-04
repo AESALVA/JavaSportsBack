@@ -12,7 +12,7 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .post("login", async (req, res) => {
+  .post("/login", async (req, res) => {
     const { body } = req;
     const user = await User.findOne({ name: body.name });
     const passOK = await bcrypt.compare(body.password, user.password);
