@@ -21,8 +21,8 @@ router
     if (user && passOK) {
       return res.status(200).json({
         error: null,
-        message: "User and password OK",
         role: user.role,
+        message: "User and password OK",
       });
     } else {
       return res.status(400).json({
@@ -58,6 +58,7 @@ router
         name: body.name,
         mail: body.mail,
         password: encrytedPassword,
+        role:"user",
       });
       await newUser.save();
       newUser.password = body.password;
