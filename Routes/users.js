@@ -58,7 +58,7 @@ router
         name: body.name,
         mail: body.mail,
         password: encrytedPassword,
-        role:"admin",
+        role:"user",
       });
       await newUser.save();
       newUser.password = body.password;
