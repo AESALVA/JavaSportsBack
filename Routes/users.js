@@ -58,7 +58,7 @@ router
         name: body.name,
         mail: body.mail,
         password: encrytedPassword,
-        role:"user",
+        role:"admin",
       });
       await newUser.save();
       newUser.password = body.password;
@@ -80,10 +80,10 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .delete("/delete/:id", async (req, res) => {
-    const { id } = req.params;
+  .delete("/delete/:username", async (req, res) => {
+    const { username } = req.params;
     const { body } = req;
-    console.log("DELETE /users/delete");
+    console.log("DELETE /users/delete"+ body.role);
     console.log(body.role);
     const SUPER_USER = "admin";
     if (body.role === SUPER_USER) {
@@ -94,7 +94,7 @@ router
     }
 
     try {
-      const delUser = await User.findOneAndDelete({ _id: id });
+      const delUser = await User.findOneAndDelete({ name: username });
       res.status(200).json(delUser);
     } catch (error) {
       res.status(400).json({ error: true, message: error });
