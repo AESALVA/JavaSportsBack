@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
+const { body, validationResult } = require('express-validator');
 
 router
   .get("/all", async (req, res) => {
@@ -20,7 +21,16 @@ router
   .post("/login", async (req, res) => {
     const { body } = req;
     const user = await User.findOne({ name: body.name });
+    
+    if(!user){
+      return res.status(400).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+
     const passOK = await bcrypt.compare(body.password, user.password);
+    
 
     if (user && passOK) {
       return res.status(200).json({
@@ -35,8 +45,19 @@ router
       });
     }
   })
-  .post("/register", async (req, res) => {
+  .post("/register", body("name").matches("^[a-zA-Z ]*$").isLength({ min: 5, max: 36 }),
+  body("mail").trim().notEmpty().isEmail(), body("password").trim().notEmpty().isStrongPassword({
+    minLowercase: 1,
+    minUppercase: 1,
+    minNumbers: 1,
+  }).isLength({ min: 8, max: 20 }).matches("^[a-zA-Z ]*$") ,async (req, res) => {
     console.log("POST /users/register");
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
     const { body } = req;
 
     const newUserName = await User.findOne({
@@ -88,10 +109,13 @@ router
     const { username } = req.params;
     const { body } = req;
     console.log("DELETE /users/delete" + body.role);
-    console.log(body.role);
+
+    const Admin_1 = "Eduardo";
+    const Admin_2 = "Valentina";
     const SUPER_USER = "admin";
-    if (body.role === SUPER_USER) {
-      return res.status(400).json({
+
+    if (body.role === SUPER_USER || username === Admin_1 || username === Admin_2) {
+      return res.status(400).json({ 
         error: true,
         message: "This user cannot be erased!",
       });
