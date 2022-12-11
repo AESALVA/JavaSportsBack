@@ -1,14 +1,18 @@
 const router = require("express").Router();
 const User = require("../models/user");
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 
 router
   .get("/all", async (req, res) => {
     console.log("GET /users/all");
-
+    let Users = [];
     try {
       const allUsers = await User.find();
-      res.status(200).json(allUsers);
+      allUsers.map((users) => {
+        user = { name: users.name, role: users.role };
+        Users = [...Users, user];
+      });
+      res.status(200).json(Users);
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
@@ -58,7 +62,7 @@ router
         name: body.name,
         mail: body.mail,
         password: encrytedPassword,
-        role:"user",
+        role: "user",
       });
       await newUser.save();
       newUser.password = body.password;
@@ -83,7 +87,7 @@ router
   .delete("/delete/:username", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
-    console.log("DELETE /users/delete"+ body.role);
+    console.log("DELETE /users/delete" + body.role);
     console.log(body.role);
     const SUPER_USER = "admin";
     if (body.role === SUPER_USER) {
