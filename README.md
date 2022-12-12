@@ -24,4 +24,5 @@ El proyecto esta realizado en:
 
 
 ### Angel Eduardo Salva. [AESALVA](https://github.com/AESALVA)
+### Valentina Reigada. [valentinaReigada](https://github.com/valentinaReigada)
 
