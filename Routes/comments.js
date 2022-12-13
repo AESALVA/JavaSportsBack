@@ -1,5 +1,7 @@
 const router = require("express").Router();
 const Comment = require("../models/comment");
+const { body, validationResult } = require('express-validator');
+
 
 router
   .get("/all", async (req, res) => {
@@ -12,9 +14,16 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .post("/newComment", async (req, res) => {
+  .post("/newComment", body("comment").matches("^[a-zA-Z ]*$").isLength({ min: 4, max: 100 }), async (req, res) => {
     console.log("POST /comments/newComment");
+    const errors = validationResult(req);
+    
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array(), message:"validation error" });
+    }
+
     const { body } = req;
+
     try {
       const newComment = new Comment(body);
       await newComment.save();
