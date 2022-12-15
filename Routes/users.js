@@ -32,6 +32,10 @@ router
         });
       }
     } catch (error) {
+      res.status(400).json({ error: true, message: error });
+      if(!passOK){
+        return res.status(400).json({error:true,message:"Wrong Credentials"});
+      }
       if (!user) {
         return res.status(400).json({
           error: true,
