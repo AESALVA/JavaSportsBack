@@ -21,27 +21,27 @@ router
   .post("/login", async (req, res) => {
     const { body } = req;
 
-    try {
-      const user = await User.findOne({ name: body.name });
-      const passOK = await bcrypt.compare(body.password, user.password);
-      if (user && passOK) {
-        return res.status(200).json({
-          error: null,
-          role: user.role,
-          message: "User and password OK",
-        });
-      }
-    } catch (error) {
-      res.status(400).json({ error: true, message: error });
-      if(!passOK){
-        return res.status(400).json({error:true,message:"Wrong Credentials"});
-      }
-      if (!user) {
-        return res.status(400).json({
-          error: true,
-          message: "User not found",
-        });
-      }
+    const user = await User.findOne({ name: body.name });
+    if (!user) {
+      return res.status(400).json({
+        error: true,
+        message: "User not found",
+      });
+    }
+    const passOK = await bcrypt.compare(body.password, user.password);
+    if (!passOK) {
+      return res
+        .status(400)
+        .json({ error: true, message: "Wrong Credentials" });
+    }
+
+    if (user && passOK) {
+      return res.status(200).json({
+        error: null,
+        role: user.role,
+        message: "User and password OK",
+      });
+    } else {
       return res.status(400).json({
         error: true,
         message: "Wrong Credentials",
