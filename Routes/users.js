@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
+const nodemailer = require("nodemailer");
+
 
 router
   .get("/all", async (req, res) => {
@@ -146,6 +148,67 @@ router
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
-  });
+  })
+  .post("/forgotPassword", async (req,res)=>{
+    const {mail} = req.body;
+    try {
+      const user = await User.findOne({mail:mail});
+      if(!user){
+        return res.status(400).json({error:true, message:"user not found"})
+      }
+    const link = `https://java-sports.vercel.app/resetPassword`;
+    var transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: ADMIN_USERNAME,
+        pass: ADMIN_PASS,
+      },
+    });
+
+    var mailOptions = {
+      from: ADMIN_USERNAME,
+      to: mail,
+      subject: "Password Reset",
+      text: `JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token ${user._id}`,
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });  
+
+    } catch (error) {
+      
+    } 
+
+  }).post("/resetPassword/:id", async (req,res)=>{
+const {id} = req.params;
+const {password} = req.body;
+const {confirmPassword} = req.body;
+
+if(password !== confirmPassword){
+    return res.status(400).json({error: true, message:"passwords not match"})
+}
+
+const user = await User.findOne({_id:id});
+
+
+
+if(!user){
+  return res.status(400).json({error: true, message:"user not found"})
+}
+try {
+  const salt = await bcrypt.genSalt(6);
+  const encrytedPassword = await bcrypt.hash(password,salt);
+  await User.updateOne({_id:id,},{$set:{password:encrytedPassword,}})
+  res.status(200).json({message:"New Password OK"})
+} catch (error) {
+  res.status(400).json({error:true,messaje:error})
+}
+
+  })
 
 module.exports = router;
