@@ -57,13 +57,8 @@ router
     body("password")
       .trim()
       .notEmpty()
-      .isStrongPassword({
-        minLowercase: 1,
-        minUppercase: 1,
-        minNumbers: 1,
-      })
       .isLength({ min: 8, max: 20 })
-      .matches("^[a-zA-Z ]*$"),
+      .matches("^[0-9a-zA-Z]*$"),
     async (req, res) => {
       console.log("POST /users/register");
 
