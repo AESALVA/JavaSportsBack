@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
+require('dotenv').config();
 
 
 router
@@ -176,7 +177,7 @@ router
     });  
 
     } catch (error) {
-      
+      console.log(error)
     } 
 
   }).post("/resetPassword/:id", async (req,res)=>{
