@@ -7,7 +7,7 @@ let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
 
 
-app.use(cors({origin:"http://localhost:3000"}));
+app.use(cors({origin:"*"}));
 
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser : true,
