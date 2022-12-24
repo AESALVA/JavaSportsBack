@@ -26,7 +26,7 @@ const PORT = process.env.PORT || 8000;
 const articlesRoutes = require('./Routes/articles');
 app.use('/articles', articlesRoutes)
 const usersRoutes = require('./Routes/users');
-app.use('/users', usersRoutes) 
+app.use('/users', usersRoutes,cors({origin:"*"})) 
 const commentsRoutes = require('./Routes/comments');
 app.use('/comments', commentsRoutes)
 
