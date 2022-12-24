@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 require('dotenv').config();
-const cors = require("cors");
 
 
 router
@@ -146,7 +145,7 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .post("/forgotPassword", cors({origin:"*"}), async (req,res)=>{
+  .post("/forgotPassword", async (req,res)=>{
     const {mail} = req.body;
     const Username = process.env.ADMIN_USERNAME;
     const Password = process.env.ADMIN_PASS;

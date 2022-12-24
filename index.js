@@ -6,7 +6,8 @@ const { body, validationResult } = require('express-validator');
 let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
 
-app.use(cors({origin: '*'}));
+
+app.use(cors({origin:"http://localhost:3000"}));
 
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser : true,
