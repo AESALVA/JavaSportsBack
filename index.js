@@ -10,10 +10,10 @@ mongoose.connect(process.env.DB_URI, {
 }).then(()=>{console.log('database connection OK')}).catch((error)=>{console.error(error)});
 
 
-let cors = require('cors')
+const cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
 
-app.use(cors());
+app.use(cors({origin:"*",}));
 let corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
