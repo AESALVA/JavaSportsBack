@@ -12,7 +12,9 @@ mongoose.connect(process.env.DB_URI, {
 
 let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
-app.use(cors({origin:[]}));
+
+const whiteList = ["https://java-sports-gzlgjzxt2-aesalva.vercel.app"]
+app.use(cors({origin:whiteList}));
 let corsOptions = {
   origin: 'http://localhost:3000',
   optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
