@@ -147,6 +147,9 @@ router
   })
   .post("/forgotPassword", async (req,res)=>{
     const {mail} = req.body;
+    const Username = process.env.ADMIN_USERNAME;
+    const Password = process.env.ADMIN_PASS;
+    
     try {
       const user = await User.findOne({mail:mail});
       if(!user){
@@ -156,16 +159,16 @@ router
     var transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
-        user: ADMIN_USERNAME,
-        pass: ADMIN_PASS,
+        user: Username,
+        pass: Password,
       },
     });
-
+    
     var mailOptions = {
-      from: ADMIN_USERNAME,
+      from: Username,
       to: mail,
       subject: "Password Reset",
-      text: `JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token ${user._id}`,
+      text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
