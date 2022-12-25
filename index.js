@@ -50,7 +50,7 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.post("/forgotPassword",cors({origin:"*"}), async (req,res)=>{
+app.post("/forgotPassword", async (req,res)=>{
   res.set('Access-Control-Allow-Origin', '*')
   const {mail} = req.body;
   const Username = process.env.ADMIN_USERNAME;
