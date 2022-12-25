@@ -150,13 +150,13 @@ router
     const Username = process.env.ADMIN_USERNAME;
     const Password = process.env.ADMIN_PASS;
    
-    try {
+    
       const user = await User.findOne({mail:mail});
       if(!user){
         return res.status(400).json({error:true, message:"user not found"})
       }
     const link = `https://java-sports.vercel.app/resetPassword`;
-
+    try {
      let transporter =  nodemailer.createTransport({
       service: "Gmail",
       auth: {
