@@ -171,7 +171,7 @@ router
       subject: "Password Reset",
       text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
     };
-    try {
+    
      transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
@@ -180,9 +180,7 @@ router
       }
     });  
    
-    } catch (error) {
-      console.log(error)
-    } 
+  
 
   }).post("/resetPassword/:id", async (req,res)=>{
 const {id} = req.params;
