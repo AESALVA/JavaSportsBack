@@ -149,12 +149,7 @@ router
     const {mail} = req.body;
     const Username = process.env.ADMIN_USERNAME;
     const Password = process.env.ADMIN_PASS;
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errors: errors.array(), message: "validation error" });
-    }
+   
     try {
       const user = await User.findOne({mail:mail});
       if(!user){
