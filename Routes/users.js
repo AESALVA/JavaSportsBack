@@ -4,7 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 require('dotenv').config();
-let cors = require('cors');
+
 
 router
   .get("/all", async (req, res) => {
@@ -145,11 +145,16 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .post("/forgotPassword", cors({origin:"*"}), async (req,res)=>{
+  .post("/forgotPassword", async (req,res)=>{
     const {mail} = req.body;
     const Username = process.env.ADMIN_USERNAME;
     const Password = process.env.ADMIN_PASS;
-    
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ errors: errors.array(), message: "validation error" });
+    }
     try {
       const user = await User.findOne({mail:mail});
       if(!user){
@@ -157,7 +162,7 @@ router
       }
     const link = `https://java-sports.vercel.app/resetPassword`;
 
-    var transporter = nodemailer.createTransport({
+     let transporter =  nodemailer.createTransport({
       service: "Gmail",
       auth: {
         user: Username,
@@ -165,26 +170,21 @@ router
       },
     });
     
-    var mailOptions = {
+     let mailOptions = {
       from: Username,
       to: mail,
       subject: "Password Reset",
       text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
     };
 
-    transporter.sendMail(mailOptions, function (error, info) {
+     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
         console.log("Email sent: " + info.response);
       }
     });  
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res
-        .status(400)
-        .json({ errors: errors.array(), message: "validation error" });
-    }
+   
     } catch (error) {
       console.log(error)
     } 
