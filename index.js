@@ -52,13 +52,23 @@ app.post("/forgotPassword", async (req,res)=>{
   const Password = process.env.ADMIN_PASS;
   
   try {
-    res.status(202).json(console.log("OK dsde el back"))
-    console.log(res)
+    const user = await User.findOne({mail:mail});
+    if(!user){
+      return res.status(400).json({error:true, message:"user not found"})
+    }
+  const link = `https://java-sports.vercel.app/resetPassword`;
+  var transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: Username,
+      pass: Password,
+    },
+  })
+return res.status(202).json(transporter)
   } catch (error) {
     res.status(402).json(console.log(error))
     console.log(error)
   }
-
-  
 })
+
 
