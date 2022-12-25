@@ -44,50 +44,18 @@ app.listen(PORT, () => {
 });
 
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+
 
 app.post("/forgotPassword", async (req,res)=>{
-  res.set('Access-Control-Allow-Origin', '*')
   const {mail} = req.body;
   const Username = process.env.ADMIN_USERNAME;
   const Password = process.env.ADMIN_PASS;
   
   try {
-    const user = await User.findOne({mail:mail});
-    if(!user){
-      return res.status(400).json({error:true, message:"user not found"})
-    }
-  const link = `https://java-sports.vercel.app/resetPassword`;
-  var transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: Username,
-      pass: Password,
-    },
-  });
-  
-  var mailOptions = {
-    from: Username,
-    to: mail,
-    subject: "Password Reset",
-    text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
-  };
-
-  transporter.sendMail(mailOptions, function (error, info) {
-    if (error) {
-      console.log(error);
-    } else {
-      console.log("Email sent: " + info.response);
-    }
-  });  
-
+    res.status(200).json(console.log("OK"))
   } catch (error) {
-    console.log(error)
-  } 
-
+    res.status(402).json(console.log(error))
+  }
+  
 })
 
