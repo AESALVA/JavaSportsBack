@@ -43,7 +43,7 @@ app.listen(PORT, () => {
   console.log('Server running on port ' + PORT);
 });
 
-app.post("/forgotPassword", async (req,res)=>{
+app.post("/forgotPassword",cors({origin:"*"}), async (req,res)=>{
   const {mail} = req.body;
   const Username = process.env.ADMIN_USERNAME;
   const Password = process.env.ADMIN_PASS;
