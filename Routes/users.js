@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
+const { response } = require("express");
 require("dotenv").config();
 
 router
@@ -175,7 +176,7 @@ router
       if (error) {
         return res.status(403).json({message:error});
       } else {
-        return res.status(201).json({message:info.response});
+        console.log(info);
       }
     });
     return res.status(200).json({message:`OK MAIL`})
