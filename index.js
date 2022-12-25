@@ -52,10 +52,13 @@ app.post("/forgotPassword", async (req,res)=>{
   const Password = process.env.ADMIN_PASS;
   
   try {
-    res.status(200).json(console.log("OK"))
+    res.status(202).json(console.log("OK dsde el back"))
+    console.log(res)
   } catch (error) {
     res.status(402).json(console.log(error))
+    console.log(error)
   }
+
   
 })
 
