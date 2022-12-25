@@ -3,8 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
-require('dotenv').config();
-
+require("dotenv").config();
 
 router
   .get("/all", async (req, res) => {
@@ -145,68 +144,71 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .post("/forgotPassword", async (req,res)=>{
-    const {mail} = req.body;
+  .post("/forgotPassword", async (req, res) => {
+    const { mail } = req.body;
     const Username = process.env.ADMIN_USERNAME;
     const Password = process.env.ADMIN_PASS;
-   
-    
-      const user = await User.findOne({mail:mail});
-      if(!user){
-        return res.status(400).json({error:true, message:"user not found"})
-      }
+
+    const user = await User.findOne({ mail: mail });
+    if (!user) {
+      return res.status(400).json({ error: true, message: "user not found" });
+    }
     const link = `https://java-sports.vercel.app/resetPassword`;
-   
-     let transporter =  nodemailer.createTransport({
+
+    let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
         user: Username,
         pass: Password,
       },
     });
-    
-     let mailOptions = {
+console.log(transporter)
+    let mailOptions = {
       from: Username,
       to: mail,
       subject: "Password Reset",
-      text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
+      text: `Hola ${
+        user.name
+      } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
+        user._id
+      }`,
     };
-    
-     transporter.sendMail(mailOptions, function (error, info) {
+console.log(mailOptions)
+    transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
         console.log("Email sent: " + info.response);
       }
-    });  
-   
-  
-
-  }).post("/resetPassword/:id", async (req,res)=>{
-const {id} = req.params;
-const {password} = req.body;
-const {confirmPassword} = req.body;
-
-if(password !== confirmPassword){
-    return res.status(400).json({error: true, message:"passwords not match"})
-}
-
-const user = await User.findOne({_id:id});
-
-
-
-if(!user){
-  return res.status(400).json({error: true, message:"user not found"})
-}
-try {
-  const salt = await bcrypt.genSalt(6);
-  const encrytedPassword = await bcrypt.hash(password,salt);
-  await User.updateOne({_id:id,},{$set:{password:encrytedPassword,}})
-  res.status(200).json({message:"New Password OK"})
-} catch (error) {
-  res.status(400).json({error:true,messaje:error})
-}
-
+    });
   })
+  .post("/resetPassword/:id", async (req, res) => {
+    const { id } = req.params;
+    const { password } = req.body;
+    const { confirmPassword } = req.body;
+
+    if (password !== confirmPassword) {
+      return res
+        .status(400)
+        .json({ error: true, message: "passwords not match" });
+    }
+
+    const user = await User.findOne({ _id: id });
+
+    if (!user) {
+      return res.status(400).json({ error: true, message: "user not found" });
+    }
+    try {
+      const salt = await bcrypt.genSalt(6);
+      const encrytedPassword = await bcrypt.hash(password, salt);
+      await User.updateOne(
+        { _id: id },
+        { $set: { password: encrytedPassword } }
+      );
+      res.status(200).json({ message: "New Password OK" });
+    } catch (error) {
+      res.status(400).json({ error: true, messaje: error });
+    }
+  });
 
 module.exports = router;
