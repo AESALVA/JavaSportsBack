@@ -152,9 +152,8 @@ router
     const user = await User.findOne({ mail: mail });
     if (!user) {
       return res.status(400).json({ error: true, message: "user not found" });
-    }
+    } else {
     const link = `https://java-sports.vercel.app/resetPassword`;
-
     let transporter = nodemailer.createTransport({
       service: "gmail",
       auth: {
@@ -162,7 +161,6 @@ router
         pass: Password,
       },
     });
-console.log(transporter)
     let mailOptions = {
       from: Username,
       to: mail,
@@ -173,14 +171,13 @@ console.log(transporter)
         user._id
       }`,
     };
-console.log(mailOptions)
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
       } else {
         console.log("Email sent: " + info.response);
       }
-    });
+    });return res.status(200).json({message:"OK MAIL"})}
   })
   .post("/resetPassword/:id", async (req, res) => {
     const { id } = req.params;
