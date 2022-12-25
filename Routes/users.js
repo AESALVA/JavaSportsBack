@@ -156,8 +156,9 @@ router
         return res.status(400).json({error:true, message:"user not found"})
       }
     const link = `https://java-sports.vercel.app/resetPassword`;
+
     var transporter = nodemailer.createTransport({
-      service: "gmail",
+      service: "Gmail",
       auth: {
         user: Username,
         pass: Password,
@@ -178,7 +179,12 @@ router
         console.log("Email sent: " + info.response);
       }
     });  
-
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res
+        .status(400)
+        .json({ errors: errors.array(), message: "validation error" });
+    }
     } catch (error) {
       console.log(error)
     } 
