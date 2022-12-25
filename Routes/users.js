@@ -176,7 +176,7 @@ router
       if (error) {
         return res.status(403).json({message:error});
       } else {
-        console.log(info);
+        console.log(info.response);
       }
     });
     return res.status(200).json({message:`OK MAIL`})
