@@ -156,9 +156,9 @@ router
         return res.status(400).json({error:true, message:"user not found"})
       }
     const link = `https://java-sports.vercel.app/resetPassword`;
-    try {
+   
      let transporter =  nodemailer.createTransport({
-      service: "Gmail",
+      service: "gmail",
       auth: {
         user: Username,
         pass: Password,
@@ -171,7 +171,7 @@ router
       subject: "Password Reset",
       text: `Hola ${user.name} JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${user._id}`,
     };
-
+    try {
      transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         console.log(error);
