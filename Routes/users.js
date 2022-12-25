@@ -178,7 +178,7 @@ router
         console.log("Email sent: " + info.response);
       }
     });
-    return res.status(200).json({message:"OK MAIL"})
+    return res.status(200).json({message:`OK MAIL ${link}`})
   })
   .post("/resetPassword/:id", async (req, res) => {
     const { id } = req.params;
