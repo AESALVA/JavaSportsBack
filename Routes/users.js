@@ -173,15 +173,8 @@ router
         user._id
       }`,
     };
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error)
-        return res.status(403).json({message:error}); 
-      } else {
-        console.log(info.response);
-        return res.status(201).json({message:`OK`});
-      }
-    });
+    transporter.sendMail(mailOptions);
+    return res.status(201).json({message:"mail send"})
     } catch (error) {
       return res.status(401).json({message:'Error'})
     }
