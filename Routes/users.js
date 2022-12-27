@@ -156,13 +156,7 @@ router
 
     try {
       const link = `https://java-sports.vercel.app/resetPassword`;
-    let transporter = nodemailer.createTransport({
-      service: "gmail",
-      auth: {
-        user: Username,
-        pass: Password,
-      },
-    });
+    
     let mailOptions = {
       from: Username,
       to: mail,
@@ -173,13 +167,21 @@ router
         user._id
       }`,
     };
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: Username,
+        pass: Password,
+      },
+    });
+    
     transporter.sendMail(mailOptions, function (error, info) {
       if(error){
         return res.status(403).json({message:'Error',error:error})
       } else {
         return res.status(201).json({message:"mail send",info:info.response})
       }
-    })
+    })  
     } catch (error) {
       return res.status(401).json({message:'Error',error:error})
     }
