@@ -175,8 +175,13 @@ router
       },
     });
  
-    transporter.sendMail(mailOptions)  
-    return res.status(201).json({message:"mail send",info:info})
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+              return res.status(401).json({message:'Error',error:error,info:info.err})
+      } else {
+        return res.status(200),json({message:"OK MAIL",info:info})
+      }
+    });
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
     }
