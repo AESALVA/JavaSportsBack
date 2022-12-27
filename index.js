@@ -43,10 +43,7 @@ app.post("/forgotPassword", async (req, res) => {
   const Username = process.env.ADMIN_USERNAME;
   const Password = process.env.ADMIN_PASS;
 
-  const user = await User.findOne({ mail: mail });
-  if (!user) {
-    return res.status(400).json({ error: true, message: "user not found" });
-  }
+
 
   try {
     const link = `https://java-sports.vercel.app/resetPassword`;
