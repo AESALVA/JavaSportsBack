@@ -186,7 +186,6 @@ router
       return res.status(401).json({message:'Error'})
     }
     
-    return res.status(200).json({message:`OK MAIL`})
   })
   .post("/resetPassword/:id", async (req, res) => {
     const { id } = req.params;
