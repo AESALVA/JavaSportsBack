@@ -48,25 +48,25 @@ app.post("/forgotPassword", async (req, res) => {
   try {
     const link = `https://java-sports.vercel.app/resetPassword`;
   
-  let mailOptions = {
-    from: Username,
-    to: mail,
-    subject: "Password Reset",
-    text: `Hola ${
-      user.name
-    } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
-      user._id
-    }`,
-  };
-  let transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      user: Username,
-      pass: Password,
-    },
-  });
-  console.log(transporter)
-  return res.status(200).json({message:"testing"})
+  // let mailOptions = {
+  //   from: Username,
+  //   to: mail,
+  //   subject: "Password Reset",
+  //   text: `Hola ${
+  //     user.name
+  //   } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
+  //     user._id
+  //   }`,
+  // };
+  // let transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   auth: {
+  //     user: Username,
+  //     pass: Password,
+  //   },
+  // });
+   console.log(mail)
+  return res.status(200).json({message:link})
   // transporter.sendMail(mailOptions, function (error, info) {
   //   if (error) {
   //           return res.status(401).json({message:'Error',error:error,info:info.err})
@@ -75,7 +75,7 @@ app.post("/forgotPassword", async (req, res) => {
   //   }
   // });
   } catch (error) {
-    return res.status(401).json({message:'Error',error:error,info:info.err})
+    return res.status(401).json({message:'Error'})
   }
   
 })
