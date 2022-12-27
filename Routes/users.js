@@ -175,7 +175,7 @@ router
     };
     transporter.sendMail(mailOptions, function (error, info) {
       if(error){
-        return res.status(403).json({message:'Error'})
+        return res.status(403).json({message:'Error',error:error})
       } else {
         return res.status(201).json({message:"mail send",info:info.response})
       }
