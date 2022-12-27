@@ -3,7 +3,6 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
-const { response } = require("express");
 require("dotenv").config();
 
 router
@@ -159,6 +158,7 @@ router
       const link = `https://java-sports.vercel.app/resetPassword`;
     let transporter = nodemailer.createTransport({
       service: "gmail",
+      secure: false,
       auth: {
         user: Username,
         pass: Password,
