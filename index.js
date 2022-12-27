@@ -5,6 +5,8 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
+const nodemailer = require("nodemailer");
+
 
 
 app.use(cors({origin:"*"}));
