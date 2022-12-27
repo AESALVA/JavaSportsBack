@@ -175,7 +175,7 @@ router
       },
     });
  
-    let info = await transporter.sendMail(mailOptions)  
+    transporter.sendMail(mailOptions)  
     return res.status(201).json({message:"mail send",info:info})
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
