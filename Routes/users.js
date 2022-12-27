@@ -164,7 +164,7 @@ router
       },
     });
     let mailOptions = {
-      from: "youremail@gmail.com",
+      from: Username,
       to: mail,
       subject: "Password Reset",
       text: `Hola ${
@@ -173,10 +173,15 @@ router
         user._id
       }`,
     };
-    transporter.sendMail(mailOptions);
-    return res.status(201).json({message:"mail send"})
+    transporter.sendMail(mailOptions, function (error, info) {
+      if(error){
+        return res.status(403).json({message:'Error'})
+      } else {
+        return res.status(201).json({message:"mail send",info:info.response})
+      }
+    })
     } catch (error) {
-      return res.status(401).json({message:'Error'})
+      return res.status(401).json({message:'Error',error:error})
     }
     
   })
