@@ -181,14 +181,13 @@ router
         console.log("Server is ready to take our messages");
       }
     });
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        return res.status(401).json({message:'Error',error:error})
-      } else {
-        return res.status(200),json({message:"OK MAIL",info:info})
-      }
-    });
-    transporter.close();
+    // transporter.sendMail(mailOptions, function (error, info) {
+    //   if (error) {
+    //     return res.status(401).json({message:'Error',error:error})
+    //   } else {
+    //     return res.status(200),json({message:"OK MAIL",info:info})
+    //   }
+    // });
     return res.status(200).json({message:"OK"})
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
