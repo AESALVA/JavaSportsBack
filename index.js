@@ -5,7 +5,7 @@ require('dotenv').config();
 const { body, validationResult } = require('express-validator');
 let cors = require('cors')
 const MOCK = require('./Mocks/Mocks');
-const nodemailer = require("nodemailer");
+let nodemailer = require("nodemailer");
 
 
 
@@ -50,12 +50,9 @@ app.post("/forgotPassword", async (req, res) => {
   
   let mailOptions = {
     from: Username,
-    to: email,
+    to: "eduardo_salva@hotmail.com",
     subject: "Password Reset",
-    text: `Hola ${
-      user.name
-    } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
-      user._id
+    text: `Hola  JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es:
     }`,
   };
   let transporter = nodemailer.createTransport({
@@ -66,15 +63,15 @@ app.post("/forgotPassword", async (req, res) => {
        secure:false,
     },
   });
-   console.log(transporter)
-  return res.status(200).json({message:link})
-  // transporter.sendMail(mailOptions, function (error, info) {
-  //   if (error) {
-  //           return res.status(401).json({message:'Error',error:error,info:info.err})
-  //   } else {
-  //     return res.status(200),json({message:"OK MAIL",info:info})
-  //   }
-  // });
+ 
+  transporter.sendMail(mailOptions, function (error, info) {
+    if (error) {
+            return res.status(401).json({message:'Error',error:error,info:info.err})
+    } else {
+      return res.status(200),json({message:"OK MAIL",info:info})
+    }
+  });
+    return res.status(200).json({message:"ok"})
   } catch (error) {
     return res.status(401).json({message:'Error'})
   }
