@@ -169,12 +169,18 @@ router
     };
     let transporter = nodemailer.createTransport({
       service: "gmail",
+      secure:false,
+      tls: {
+        // do not fail on invalid certs
+        rejectUnauthorized: false,
+      },
       auth: {
         user: Username,
         pass: Password,
       },
     });
-    
+    console.log(transporter)
+    console.log(mailOptions)
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
         return res.status(401).json({message:'Error',error:error})
@@ -182,6 +188,7 @@ router
         return res.status(200),json({message:"OK MAIL",info:info})
       }
     });
+    transporter.close();
     return res.status(200).json({message:"OK"})
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
