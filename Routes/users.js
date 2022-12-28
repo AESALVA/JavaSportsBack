@@ -174,15 +174,15 @@ router
         pass: Password,
       },
     });
-    console.log(transporter)
-    return res.status(200).json({message:"testing"})
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //           return res.status(401).json({message:'Error',error:error,info:info.err})
-    //   } else {
-    //     return res.status(200),json({message:"OK MAIL",info:info})
-    //   }
-    // });
+    
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        return res.status(401).json({message:'Error',error:error})
+      } else {
+        return res.status(200),json({message:"OK MAIL",info:info})
+      }
+    });
+    return res.status(200).json({message:"OK"})
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
     }
