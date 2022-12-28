@@ -178,7 +178,7 @@ router
       if (error) {
         return res.status(400).json({message:error})
       } else {
-        console.log("Server is ready to take our messages");
+        return res.status(200).json({message:"OK"});
       }
     });
     // transporter.sendMail(mailOptions, function (error, info) {
@@ -188,7 +188,7 @@ router
     //     return res.status(200),json({message:"OK MAIL",info:info})
     //   }
     // });
-    return res.status(200).json({message:"OK"})
+    
     } catch (error) {
       return res.status(401).json({message:'Error',error:error,info:info.err})
     }
