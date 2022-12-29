@@ -156,7 +156,19 @@ router
 
     try {
       const link = `https://java-sports.vercel.app/resetPassword`;
-    
+      
+      let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        secureConnection: false,
+        port:587,
+        tls: {
+          ciphers:'SSLv3'
+       },
+        auth: {
+          user: Username,
+          pass: Password,
+        },
+      });
     let mailOptions = {
       from: Username,
       to: mail,
@@ -167,14 +179,7 @@ router
         user._id
       }`,
     };
-    let transporter = nodemailer.createTransport({
-      host: "smtp.gmail",
-      port:587,
-      auth: {
-        user: Username,
-        pass: Password,
-      },
-    });
+    
     transporter.verify(function (error, success) {
       if (error) {
         return res.status(400).json({message:error})
