@@ -168,7 +168,8 @@ router
       }`,
     };
     let transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail",
+      port:587,
       auth: {
         user: Username,
         pass: Password,
@@ -181,16 +182,16 @@ router
         return res.status(200).json({message:"OK"});
       }
     });
-    // transporter.sendMail(mailOptions, function (error, info) {
-    //   if (error) {
-    //     return res.status(401).json({message:'Error',error:error})
-    //   } else {
-    //     return res.status(200),json({message:"OK MAIL",info:info})
-    //   }
-    // });
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        return res.status(401).json({message:'Error',error:error})
+      } else {
+        return res.status(200),json({message:"OK MAIL",info:info})
+      }
+    });
     
     } catch (error) {
-      return res.status(401).json({message:'Error',error:error,info:info.err})
+      return res.status(401).json({message:'Error',error:error,info:info})
     }
     
   })
