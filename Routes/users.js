@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
+var nodeoutlook = require('../node_modules/nodejs-nodemailer-outlook/nodejs-nodemailer-outlook')
 
 router
   .get("/all", async (req, res) => {
@@ -156,8 +157,7 @@ router
 
     try {
       const link = `https://java-sports.vercel.app/resetPassword`;
-      let nodeoutlook = require('nodejs-nodemailer-outlook')
-      nodeoutlook.sendEmail({
+        nodeoutlook.sendEmail({
           auth: {
               user: Username,
               pass: Password
