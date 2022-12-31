@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
-var nodeoutlook = require('../node_modules/nodejs-nodemailer-outlook/nodejs-nodemailer-outlook')
 
 router
   .get("/all", async (req, res) => {
@@ -157,67 +156,45 @@ router
 
     try {
       const link = `https://java-sports.vercel.app/resetPassword`;
-        nodeoutlook.sendEmail({
-          auth: {
-              user: Username,
-              pass: Password
-          },
-          from: Username,
-          to: mail,
-          subject: 'Hey you, awesome!',
-          html: '<b>This is bold text</b>',
-          text: 'This is text version!',
-          attachments: [
-                              {
-                                  filename: 'text1.txt',
-                                  content: link
-                              },
-                              
-                          ],
-          onError: (e) => console.log(e),
-          onSuccess: (i) => console.log(i)
-      }
-      
-      
-      );
-  //     let transporter = nodemailer.createTransport({
-  //       host: "smtp-mail.outlook.com",
-  //       pool:true,
-  //       secureConnection: false,
-  //       requireTLC: true,
-  //       secure: false,
-  //       port:587,
-  //       tls: {
-  //         ciphers:'SSLv3',
-  //         rejectUnauthorized: false
-  //      },
-  //       auth: {
-  //         user: Username,
-  //         pass: Password,
-  //       },
-  //     });
-  //   let mailOptions = {
-  //     from: Username,
-  //     to: mail,
-  //     subject: "Password Reset",
-  //     text: `Hola ${
-  //       user.name
-  //     } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
-  //       user._id
-  //     }`,
-  //   };
-  //   transporter.verify((err, success) => {
-  //     if (err) return res.status(400).json({message:err.message});
-  //     console.log('Your config is correct');
-  // });
+        
+      let transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com",
+        pool:true,
+        secureConnection: false,
+        requireTLC: true,
+        secure: false,
+        port:587,
+        tls: {
+          ciphers:'SSLv3',
+          rejectUnauthorized: false
+       },
+        auth: {
+          user: Username,
+          pass: Password,
+        },
+      });
+    let mailOptions = {
+      from: Username,
+      to: mail,
+      subject: "Password Reset",
+      text: `Hola ${
+        user.name
+      } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
+        user._id
+      }`,
+    };
+    transporter.verify((err, success) => {
+      if (err) return res.status(400).json({message:err.message});
+      console.log('Your config is correct');
+  });
    
-  //   transporter.sendMail(mailOptions, function (error, info) {
-  //     if (error) {
-  //       return res.status(401).json({message:'Error',error:error.message})
-  //     } else {
-  //       return res.status(200),json({message:"OK MAIL",info:info})
-  //     }
-  //   });
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        return res.status(401).json({message:'Error',error:error.message})
+      } else {
+        return res.status(200),json({message:"OK MAIL",info:info})
+      }
+    });
     
     } catch (error) {
       return res.status(401).json({message:'Error',error:error.message,info:info.message})
