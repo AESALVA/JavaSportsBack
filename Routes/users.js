@@ -160,8 +160,8 @@ router
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         secureConnection: false,
-        secure: true,
-        port:465,
+        secure: false,
+        port:587,
         tls: {
           ciphers:'SSLv3',
           rejectUnauthorized: false
