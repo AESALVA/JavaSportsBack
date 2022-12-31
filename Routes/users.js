@@ -159,7 +159,6 @@ router
 
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
-        proxy:'http://localhost:3000/PassRecovery',
         secureConnection: false,
         secure: false,
         port:587,
@@ -183,13 +182,15 @@ router
       }`,
     };
     transporter.verify((err, success) => {
-      if (err) return res.status(400).json({message:err});
+      if (err) return res.status(400).json({message:err.message});
       console.log('Your config is correct');
+      console.log(Username);
+      console.log(Password)
   });
    
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        return res.status(401).json({message:'Error',error:error})
+        return res.status(401).json({message:'Error',error:error.message})
       } else {
         return res.status(200),json({message:"OK MAIL",info:info})
       }
