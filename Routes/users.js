@@ -183,10 +183,8 @@ router
       }`,
     };
     transporter.verify((err, success) => {
-      if (err) return res.status(400).json({message:err.message,text:'error en el verify'});
+      if (err) return res.status(400).json({message:err.message});
       console.log('Your config is correct');
-      console.log(Username);
-      console.log(Password)
   });
    
     transporter.sendMail(mailOptions, function (error, info) {
@@ -198,7 +196,7 @@ router
     });
     
     } catch (error) {
-      return res.status(401).json({message:'Error',error:error,info:info})
+      return res.status(401).json({message:'Error',error:error.message,info:info.message})
     }
     
   })
