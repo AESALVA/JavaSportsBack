@@ -180,7 +180,10 @@ router
         user._id
       }`,
     };
-    
+    transporter.verify((err, success) => {
+      if (err) return res.status(400).json({message:err});
+      console.log('Your config is correct');
+  });
    
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
