@@ -161,9 +161,11 @@ router
         host: "smtp-mail.outlook.com",
         proxy:'http://localhost:3000/PassRecovery',
         secureConnection: false,
+        secure: true,
         port:587,
         tls: {
-          ciphers:'SSLv3'
+          ciphers:'SSLv3',
+          rejectUnauthorized: false
        },
         auth: {
           user: Username,
