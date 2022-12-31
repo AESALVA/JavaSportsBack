@@ -159,7 +159,7 @@ router
 
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
-        proxy:'https://java-sports.vercel.app',
+        proxy:'https://java-sports.vercel.app/users/forgotPassword',
         secureConnection: false,
         port:587,
         tls: {
