@@ -160,7 +160,7 @@ router
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         pool:true,
-        proxy:'http://localhost:3000/PassRecovery',
+        proxy:'127.0.0.1:3000/PassRecovery',
         secureConnection: false,
         requireTLC: true,
         secure: false,
