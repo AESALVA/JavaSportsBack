@@ -182,7 +182,7 @@ router
       }`,
     };
     transporter.verify((err, success) => {
-      if (err) return res.status(400).json({message:err.message});
+      if (err) return res.status(400).json({message:err.message,text:'error en el verify'});
       console.log('Your config is correct');
       console.log(Username);
       console.log(Password)
