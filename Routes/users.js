@@ -160,6 +160,7 @@ router
       let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
         pool:true,
+        proxy:'http://localhost:3000/PassRecovery',
         secureConnection: false,
         requireTLC: true,
         secure: false,
@@ -174,7 +175,7 @@ router
         },
       });
     let mailOptions = {
-      from: Username,
+      from: 'eduardo_salva@hotmail.com',
       to: mail,
       subject: "Password Reset",
       text: `Hola ${
