@@ -158,9 +158,8 @@ router
       const link = `https://java-sports.vercel.app/resetPassword`;
         
       let transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com",
+        service: "smtp-mail.outlook.com",
         pool:true,
-        proxy:'http://127.0.0.1:3000',
         secureConnection: false,
         requireTLC: true,
         secure: false,
