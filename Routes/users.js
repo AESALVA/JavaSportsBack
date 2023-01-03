@@ -205,7 +205,7 @@ router
   
   var mailOptions = {
     from: "eduardosalva874@gmail.com",
-    to: mail,
+    to: "eduardo_salva@hotmail.com",
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
   };
