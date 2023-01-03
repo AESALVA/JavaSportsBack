@@ -195,16 +195,16 @@ router
   //       return res.status(200),json({message:"OK MAIL",info:info})
   //     }
   //   });
-  var transporter = nodemailer.createTransport({
-    service: 'gmail',
+  var transporter = nodemailer.createTransport("SMTP",{
+    service: 'smtp-mail.outlook.com',
     auth: {
-      user: "eduardosalva874@gmail.com",
-      password: "PataBlanca2005"
+      user: "eduardo_salva@hotmail.com",
+      password: "Salva240387"
     }
   });
   
   var mailOptions = {
-    from: "eduardosalva874@gmail.com",
+    from: "eduardo_salva@hotmail.com",
     to: "eduardo_salva@hotmail.com",
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
