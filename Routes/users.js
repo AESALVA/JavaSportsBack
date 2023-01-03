@@ -195,7 +195,7 @@ router
   //       return res.status(200),json({message:"OK MAIL",info:info})
   //     }
   //   });
-  var transporter = nodemailer.createTransport("SMTP",{
+  var transporter = nodemailer.createTransport({
     service: 'smtp-mail.outlook.com',
     auth: {
       user: "eduardo_salva@hotmail.com",
