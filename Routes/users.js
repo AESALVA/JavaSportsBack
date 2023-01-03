@@ -146,8 +146,8 @@ router
   })
   .post("/forgotPassword", async (req, res) => {
     const { mail } = req.body;
-    const Username = process.env.ADMIN_USERNAME;
-    const Password = process.env.ADMIN_PASS;
+    const Username = process.env.USERNAME;
+    const Password = process.env.PASSWORD;
 
     const user = await User.findOne({ mail: mail });
     if (!user) {
@@ -198,18 +198,21 @@ router
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: process.env.USERNAME,
-      pass: process.env.PASSWORD
+      user: Username,
+      pass: Password
     }
   });
   
   var mailOptions = {
-    from: process.env.USERNAME,
+    from: Username,
     to: mail,
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
   };
-  
+  transporter.verify((err, success) => {
+        if (err) return res.status(400).json({message:err.message});
+        console.log('Your config is correct');
+    });
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       return res.status(401).json({message:'Error',error:error.message})
