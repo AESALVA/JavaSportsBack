@@ -196,7 +196,7 @@ router
   //     }
   //   });
   var transporter = nodemailer.createTransport({
-    service: "smtp-mail.outlook.com",
+    service: "gmail",
         secureConnection: false,
         secure: false,
         port:587,
@@ -207,13 +207,13 @@ router
           rejectUnauthorized: false
        },
     auth: {
-      user: "eduardo_salva@hotmail.com",
-      password: "Salva240387"
+      user: "eduardosalva874@gmail.com",
+      password: "PataBlanca2005"
     }
   });
   
   var mailOptions = {
-    from: "eduardo_salva@hotmail.com",
+    from: "eduardosalva874@gmail.com",
     to: "eduardo_salva@hotmail.com",
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
