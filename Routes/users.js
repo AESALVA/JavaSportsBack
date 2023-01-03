@@ -209,10 +209,7 @@ router
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
   };
-  transporter.verify((err, success) => {
-        if (err) return res.status(400).json({message:err.message});
-        console.log('Your config is correct');
-    });
+ 
   transporter.sendMail(mailOptions, function(error, info){
     if (error) {
       return res.status(401).json({message:'Error',error:error.message})
