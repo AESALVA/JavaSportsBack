@@ -196,7 +196,7 @@ router
   //     }
   //   });
   var transporter = nodemailer.createTransport({
-    service: 'smtp-mail.outlook.com',
+    service: 'outlook',
     auth: {
       user: "eduardo_salva@hotmail.com",
       password: "Salva240387"
