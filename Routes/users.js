@@ -214,12 +214,12 @@ router
     if (error) {
       return res.status(401).json({message:'Error',error:error.message})
     } else {
-      return res.status(200),json({message:"OK MAIL",info:info})
+      return res.status(200),json({message:"OK MAIL"})
     }
   });
     
     } catch (error) {
-      return res.status(401).json({message:'Error',error:error.message,info:info.message})
+      return res.status(401).json({message:'Error',error:error.message})
     }
     
   })
