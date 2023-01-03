@@ -196,7 +196,16 @@ router
   //     }
   //   });
   var transporter = nodemailer.createTransport({
-    service: 'outlook',
+    service: "smtp-mail.outlook.com",
+        secureConnection: false,
+        secure: false,
+        port:587,
+        logger: true,
+        debug: true,
+        tls: {
+          ciphers:'SSLv3',
+          rejectUnauthorized: true
+       },
     auth: {
       user: "eduardo_salva@hotmail.com",
       password: "Salva240387"
