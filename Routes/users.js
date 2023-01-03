@@ -162,8 +162,9 @@ router
         pool:true,
         secureConnection: false,
         requireTLC: true,
-        secure: false,
-        port:465,
+        ignoreTLS:true,
+        secure: true,
+        port:25,
         tls: {
           ciphers:'SSLv3',
           rejectUnauthorized: false
