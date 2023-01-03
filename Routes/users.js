@@ -199,7 +199,7 @@ router
     service: 'gmail',
     auth: {
       user: "eduardosalva874@gmail.com",
-      pass: "PataBlanca2005"
+      password: "PataBlanca2005"
     }
   });
   
