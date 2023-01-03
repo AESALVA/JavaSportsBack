@@ -157,44 +157,66 @@ router
     try {
       const link = `https://java-sports.vercel.app/resetPassword`;
         
-      let transporter = nodemailer.createTransport({
-        service: "smtp-mail.outlook.com",
-        secureConnection: false,
-        secure: false,
-        port:587,
-        logger: true,
-        debug: true,
-        tls: {
-          ciphers:'SSLv3',
-          rejectUnauthorized: true
-       },
-        auth: {
-          user: Username,
-          pass: Password,
-        },
-      });
-    let mailOptions = {
-      from: 'eduardo_salva@hotmail.com',
-      to: mail,
-      subject: "Password Reset",
-      text: `Hola ${
-        user.name
-      } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
-        user._id
-      }`,
-    };
-    transporter.verify((err, success) => {
-      if (err) return res.status(400).json({message:err.message});
-      console.log('Your config is correct');
-  });
+  //     let transporter = nodemailer.createTransport({
+  //       service: "smtp-mail.outlook.com",
+  //       secureConnection: false,
+  //       secure: false,
+  //       port:587,
+  //       logger: true,
+  //       debug: true,
+  //       tls: {
+  //         ciphers:'SSLv3',
+  //         rejectUnauthorized: true
+  //      },
+  //       auth: {
+  //         user: Username,
+  //         pass: Password,
+  //       },
+  //     });
+  //   let mailOptions = {
+  //     from: 'eduardo_salva@hotmail.com',
+  //     to: mail,
+  //     subject: "Password Reset",
+  //     text: `Hola ${
+  //       user.name
+  //     } JavaSports le envia el siguiente link para restablecer su contraseña ${" "}${link} y su clave Token es: ${
+  //       user._id
+  //     }`,
+  //   };
+  //   transporter.verify((err, success) => {
+  //     if (err) return res.status(400).json({message:err.message});
+  //     console.log('Your config is correct');
+  // });
    
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        return res.status(401).json({message:'Error',error:error.message})
-      } else {
-        return res.status(200),json({message:"OK MAIL",info:info})
-      }
-    });
+  //   transporter.sendMail(mailOptions, function (error, info) {
+  //     if (error) {
+  //       return res.status(401).json({message:'Error',error:error.message})
+  //     } else {
+  //       return res.status(200),json({message:"OK MAIL",info:info})
+  //     }
+  //   });
+  var transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.USERNAME,
+      pass: process.env.PASSWORD
+    }
+  });
+  
+  var mailOptions = {
+    from: process.env.USERNAME,
+    to: mail,
+    subject: 'Sending Email using Node.js',
+    text: 'That was easy!'
+  };
+  
+  transporter.sendMail(mailOptions, function(error, info){
+    if (error) {
+      return res.status(401).json({message:'Error',error:error.message})
+    } else {
+      return res.status(200),json({message:"OK MAIL",info:info})
+    }
+  });
     
     } catch (error) {
       return res.status(401).json({message:'Error',error:error.message,info:info.message})
