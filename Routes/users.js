@@ -198,13 +198,13 @@ router
   var transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: Username,
-      pass: Password
+      user: "eduardosalva874@gmail.com",
+      password: "PataBlanca2005"
     }
   });
   
   var mailOptions = {
-    from: Username,
+    from: "eduardosalva874@gmail.com",
     to: mail,
     subject: 'Sending Email using Node.js',
     text: 'That was easy!'
