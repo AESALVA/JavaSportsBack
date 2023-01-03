@@ -204,7 +204,7 @@ router
         debug: true,
         tls: {
           ciphers:'SSLv3',
-          rejectUnauthorized: true
+          rejectUnauthorized: false
        },
     auth: {
       user: "eduardo_salva@hotmail.com",
