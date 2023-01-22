@@ -12,7 +12,7 @@ router
     try {
       const allUsers = await User.find();
       allUsers.map((users) => {
-        user = { name: users.name, role: users.role };
+        user = { name: users.name, role: users.role, mail:users.mail };
         Users = [...Users, user];
       });
       res.status(200).json(Users);
