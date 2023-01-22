@@ -53,6 +53,15 @@ router
         res.status(400).json({ error: true, message: error });
 
     }
+  }).post('/search', async(req,res)=>{
+    console.log('POST /search');
+    const {body}=req;
+    try {
+      const article = await Article.findOne({title:body.title});
+      res.status(200).json(article);
+    } catch (error) {
+      res.status(400).json({error:error.message});
+    }
   })
 
 
