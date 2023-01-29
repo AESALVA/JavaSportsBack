@@ -56,6 +56,7 @@ router
   }).post('/search/:title', async(req,res)=>{
     console.log('POST /search');
     const {title}=req.params;
+    console.log(title)
     try {
       const article = await Article.findOne({title:title});
       res.status(200).json(article);
