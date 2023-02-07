@@ -108,6 +108,20 @@ router
     console.log("PUT /users/update");
     const { body } = req;
     const { username } = req.params;
+    const Admin_1 = "Eduardo";
+    const Admin_2 = "Valentina";
+    const SUPER_USER = "admin";
+
+    if (
+      body.role === SUPER_USER ||
+      username === Admin_1 ||
+      username === Admin_2
+    ) {
+      return res.status(400).json({
+        error: true,
+        message: "This user cannot be modified!",
+      });
+    }
     try {
       const modUser = await User.findOneAndUpdate(username, body, {
         useFindAndModify: false,
