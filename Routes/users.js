@@ -104,10 +104,10 @@ router
       }
     }
   )
-  .put("/update/:username", async (req, res) => {
+  .put("/update/:id", async (req, res) => {
     console.log("PUT /users/update");
     const { body } = req;
-    const { username } = req.params;
+    const { id } = req.params;
     const Admin_1 = "Eduardo";
     const Admin_2 = "Valentina";
     const SUPER_USER = "admin";
@@ -123,7 +123,7 @@ router
       });
     }
     try {
-      const modUser = await User.findOneAndUpdate(username, body, {
+      const modUser = await User.findOneAndUpdate(id, body, {
         useFindAndModify: false,
       });
       res.status(200).json(modUser);
@@ -243,7 +243,7 @@ router
     const {body}=req;
     try {
       const user = await User.findOne({name:body.name});
-      res.status(200).json(user);
+      res.status(200).json(user._id);
     } catch (error) {
       res.status(400).json({error:error.message});
     }
