@@ -114,8 +114,8 @@ router
 
     if (
       body.role === SUPER_USER ||
-      username === Admin_1 ||
-      username === Admin_2
+      body.name === Admin_1 ||
+      body.name === Admin_2
     ) {
       return res.status(400).json({
         error: true,
