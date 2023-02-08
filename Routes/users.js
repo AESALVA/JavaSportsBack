@@ -123,7 +123,7 @@ router
       });
     }
     try {
-      const modUser = await User.findOneAndUpdate(id, body, {
+      const modUser = await User.findByIdAndUpdate(id, body, {
         useFindAndModify: false,
       });
       res.status(200).json(modUser);
