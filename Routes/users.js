@@ -243,7 +243,7 @@ router
     const {body}=req;
     try {
       const user = await User.findOne({name:body.name});
-      res.status(200).json(user);
+      res.status(200).json(user._id);
     } catch (error) {
       res.status(400).json({error:error.message});
     }
