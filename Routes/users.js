@@ -132,7 +132,7 @@ router
     }
   })
   .delete("/delete/:username", async (req, res) => {
-    const { username } = req.params;
+    const { id } = req.params;
     const { body } = req;
     console.log("DELETE /users/delete" + body.role);
 
@@ -142,8 +142,8 @@ router
 
     if (
       body.role === SUPER_USER ||
-      username === Admin_1 ||
-      username === Admin_2
+      body.name === Admin_1 ||
+      body.name === Admin_2
     ) {
       return res.status(400).json({
         error: true,
@@ -152,7 +152,7 @@ router
     }
 
     try {
-      const delUser = await User.findOneAndDelete({ name: username });
+      const delUser = await User.findOneAndDelete({ _id: id });
       res.status(200).json(delUser);
     } catch (error) {
       res.status(400).json({ error: true, message: error });
