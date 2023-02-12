@@ -131,7 +131,7 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  .delete("/delete/:username", async (req, res) => {
+  .delete("/delete/:id", async (req, res) => {
     const { id } = req.params;
     const { body } = req;
     console.log("DELETE /users/delete" + body.role);
