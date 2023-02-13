@@ -3,6 +3,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const { body, validationResult } = require("express-validator");
 const nodemailer = require("nodemailer");
+const process = require("process");
 require("dotenv").config();
 
 router
