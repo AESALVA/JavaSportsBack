@@ -161,7 +161,7 @@ router
   .post("/forgotPassword", async (req, res) => {
     const { mail } = req.body;
     const Username = "eduardo_salva@hotmail.com";
-    const Password = "Salva240387";
+    const Password = process.env.REACT_APP_ADMIN_PASS;
 
     const user = await User.findOne({ mail: mail });
     if (!user) {
