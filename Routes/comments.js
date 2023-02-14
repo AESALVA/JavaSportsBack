@@ -55,6 +55,16 @@ router
     } catch (error) {
       res.status(400).json({ error: true, message: error });
     }
-  });
+  }).post('/search', async(req,res)=>{
+    console.log('POST /search');
+    const {body}=req;
+    try {
+      const com = await Comment.findOne({comment:body.comment});
+      res.status(200).json(com._id);
+    } catch (error) {
+      res.status(400).json({error:error.message});
+    }
+  })
+
 
 module.exports = router;
