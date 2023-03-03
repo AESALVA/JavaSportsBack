@@ -111,7 +111,7 @@ router
     const { id } = req.params;
     const Admin_1 = "Eduardo";
     const Admin_2 = "Valentina";
-    const SUPER_USER = "admin";
+    
 
     if (
       body.name === Admin_1 ||
