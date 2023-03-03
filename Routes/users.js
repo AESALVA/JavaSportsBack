@@ -114,7 +114,6 @@ router
     const SUPER_USER = "admin";
 
     if (
-      body.role === SUPER_USER ||
       body.name === Admin_1 ||
       body.name === Admin_2
     ) {
